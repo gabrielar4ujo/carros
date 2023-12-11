@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="carros"
+		transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<class>br.com.ifpb.carros.modelo.Livro</class>
+		<class>br.com.ifpb.carros.modelo.Autor</class>
+		<class>br.com.ifpb.carros.modelo.Usuario</class>
+		<class>br.com.ifpb.carros.modelo.Anuncio</class>
+		
+		<properties>
+		
+			<property name="javax.persistence.jdbc.url"
+                value="jdbc:mysql://localhost/backend?useTimezone=true&amp;serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+		
+
+			<property name="javax.persistence.jdbc.driver"
+				value="com.mysql.jdbc.Driver" />
+
+
+			<property name="javax.persistence.jdbc.user" value="root" />
+
+			<property name="javax.persistence.jdbc.password" value="test" />
+
+
+
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="hibernate.show_sql" value="true" />
+
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQLDialect" />
+
+			<property name="hibernate.connection.useUnicode"
+				value="UTF-8" />
+
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+
+			<property name="hibernate.connection.charSet" value="UTF-8" />
+
+
+
+		</properties>
+	</persistence-unit>
+
+</persistence>
