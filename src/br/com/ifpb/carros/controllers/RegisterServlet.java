@@ -32,6 +32,7 @@ public class RegisterServlet extends HttpServlet {
         boolean admin =  user.getAdmin();
         if(admin && userDAO.jaExisteAdmin()) {
         	 String jsonResponse = "{\"message\": \"Já existe um usuário admin\"}";
+        	 response.setStatus(400);
              response.getWriter().write(jsonResponse);
              return;
         }
@@ -42,6 +43,7 @@ public class RegisterServlet extends HttpServlet {
             response.getWriter().write(jsonResponse);
         } else {
             String jsonResponse = "{\"message\": \"Falha ao registrar usuário\"}";
+            response.setStatus(400);
             response.getWriter().write(jsonResponse);
         }
         response.getWriter().write(user.getEmail());
