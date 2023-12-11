@@ -32,16 +32,21 @@ public class LoginServlet extends HttpServlet {
         Usuario usuario = userDAO.autenticarUsuario(user.getEmail(), user.getSenha());
 
         if (usuario == null) {
-            response.sendError(400, "Erro na autenticação com as credenciais utilizadas.");
+        	String jsonResponse = "{\"message\": \"Erro na autenticação com as credenciais utilizadas.\"}";
+        	response.setStatus(400);
+            response.getWriter().write(jsonResponse);
+            return;
         }
 
         String token = generateToken();
         UsuarioToken secao = new UsuarioToken(token, usuario);
-        System.out.println(secao.getToken() +  usuario.getEmail());
         boolean success = userDAO.salvarSecao(secao);
 
         if (!success) {
-            response.sendError(400, "Erro na autenticação.");
+        	String jsonResponse = "{\"message\": \"Erro na autenticação.\"}";
+        	response.setStatus(400);
+            response.getWriter().write(jsonResponse);
+            return;
         }
         String jsonResponse = "{\"message\": \"Login successful\", \"token\": \"" + token + "\"}";
         response.getWriter().write(jsonResponse);

@@ -10,9 +10,8 @@ import br.com.ifpb.carros.modelo.Usuario;
 import br.com.ifpb.carros.modelo.UsuarioToken;
 
 public class UsuarioDao {
-	final EntityManager  em = new JPAUtil().getEntityManager();
-
 	public boolean existe(Usuario usuario) {
+		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em
 				.createQuery("select u from Usuario u where u.email = :pEmail and u.senha = :pSenha", Usuario.class);
 
@@ -33,6 +32,7 @@ public class UsuarioDao {
 	}
 	
 	   public Usuario autenticarUsuario(String email, String senha) {
+		   EntityManager em = new JPAUtil().getEntityManager();
 		   Usuario usuario = null;
 	       em.getTransaction().begin();
 	       TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email AND u.senha = :senha", Usuario.class);
@@ -52,6 +52,7 @@ public class UsuarioDao {
 	    }
 	
 	  public Usuario retornaUsuario(String email) {
+		  EntityManager em = new JPAUtil().getEntityManager();
 	       Usuario usuario = null;
 	        try{
 	            em.getTransaction().begin();
@@ -68,6 +69,7 @@ public class UsuarioDao {
 	    }
 	
 	public Boolean cadastrarUsuario(Usuario usuario) {
+		EntityManager em = new JPAUtil().getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(usuario);
@@ -82,6 +84,7 @@ public class UsuarioDao {
     }
 	
 	public boolean jaExisteAdmin() {
+		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em
 				.createQuery("select u from Usuario u where u.admin = 1", Usuario.class);
 
