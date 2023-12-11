@@ -27,6 +27,7 @@ public class Anuncio implements Serializable {
 
 	private String urlImagem;
 	private String descricao;
+	private String titulo;
 	private double preco;
 	@Temporal(TemporalType.DATE)
 	private Calendar dataInicio = Calendar.getInstance();
@@ -85,5 +86,12 @@ public class Anuncio implements Serializable {
 	public String getDescricao() {
 		return descricao;
 	}
+	
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
+	public String getTitulo() {
+		return titulo;
+	}
 }
