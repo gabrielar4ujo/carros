@@ -12,6 +12,7 @@
 		<class>br.com.ifpb.carros.modelo.Livro</class>
 		<class>br.com.ifpb.carros.modelo.Autor</class>
 		<class>br.com.ifpb.carros.modelo.Usuario</class>
+		<class>br.com.ifpb.carros.modelo.UsuarioToken</class>
 		<class>br.com.ifpb.carros.modelo.Anuncio</class>
 		
 		<properties>

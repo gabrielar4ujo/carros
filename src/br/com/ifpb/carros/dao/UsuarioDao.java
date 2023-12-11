@@ -7,11 +7,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.ifpb.carros.modelo.Usuario;
+import br.com.ifpb.carros.modelo.UsuarioToken;
 
 public class UsuarioDao {
+	final EntityManager  em = new JPAUtil().getEntityManager();
 
 	public boolean existe(Usuario usuario) {
-		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em
 				.createQuery("select u from Usuario u where u.email = :pEmail and u.senha = :pSenha", Usuario.class);
 
@@ -31,8 +32,26 @@ public class UsuarioDao {
 		return true;
 	}
 	
+	   public Usuario autenticarUsuario(String email, String senha) {
+		   Usuario usuario = null;
+	       em.getTransaction().begin();
+	       TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email AND u.senha = :senha", Usuario.class);
+	       query.setParameter("email", email);
+	       query.setParameter("senha", senha);
+           
+	   		System.out.println("pEmail: TESTE" + email);
+	   		System.out.println("pSenha: " +  senha);
+	        try{
+
+	            usuario = query.getSingleResult();
+	        } catch (NoResultException ex) {
+				return null;
+			}
+	        em.close();
+	        return usuario;
+	    }
+	
 	  public Usuario retornaUsuario(String email) {
-		  EntityManager em = new JPAUtil().getEntityManager();
 	       Usuario usuario = null;
 	        try{
 	            em.getTransaction().begin();
@@ -49,7 +68,6 @@ public class UsuarioDao {
 	    }
 	
 	public Boolean cadastrarUsuario(Usuario usuario) {
-		EntityManager em = new JPAUtil().getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(usuario);
@@ -64,7 +82,6 @@ public class UsuarioDao {
     }
 	
 	public boolean jaExisteAdmin() {
-		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em
 				.createQuery("select u from Usuario u where u.admin = 1", Usuario.class);
 
@@ -77,5 +94,20 @@ public class UsuarioDao {
 		em.close();
 		return true;
 	}
-
+ 
+   public boolean salvarSecao(UsuarioToken secao) {
+	   EntityManager em = new JPAUtil().getEntityManager();
+	   try{
+		   em.getTransaction().begin();
+           em.persist(secao);
+           em.getTransaction().commit();
+       } catch (Exception e) {
+           if (em.getTransaction().isActive())
+               em.getTransaction().rollback();
+           e.printStackTrace();
+           return false;
+       }
+	   em.close();
+	   return true;
+   }
 }
