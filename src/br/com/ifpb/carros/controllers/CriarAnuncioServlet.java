@@ -26,7 +26,6 @@ public class CriarAnuncioServlet extends HttpServlet {
     	response.setContentType("application/json");
     	
     	String authorization = request.getHeader("Authorization");
-    	
     	if(authorization == null) {
     		String jsonResponse = "{\"message\": \"Usuário não está logado\"}";
     		response.setStatus(403);
@@ -69,18 +68,38 @@ public class CriarAnuncioServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
+        try {
+            response.setContentType("application/json");
 
-        List<Anuncio> anuncios = anuncioDao.listarAnuncios();
+            String nome = request.getParameter("name");
+            String minValueStr = request.getParameter("minValue");
+            String maxValueStr = request.getParameter("maxValue");
 
-        if (anuncios != null) {
-            Gson gson = new Gson();
-            String jsonAnuncios = gson.toJson(anuncios);
-            response.getWriter().write(jsonAnuncios);
-        } else {
-            response.getWriter().write("{\"message\": \"Falha ao listar anúncios\"}");
+            Double minValue = null;
+            Double maxValue = null;
+
+            if (minValueStr != null && !minValueStr.isEmpty()) {
+                minValue = Double.parseDouble(minValueStr);
+            }
+
+            if (maxValueStr != null && !maxValueStr.isEmpty()) {
+                maxValue = Double.parseDouble(maxValueStr);
+            }
+
+            List<Anuncio> anuncios = anuncioDao.listarAnuncios(nome, minValue, maxValue);
+
+            if (anuncios != null) {
+                Gson gson = new Gson();
+                String jsonAnuncios = gson.toJson(anuncios);
+                response.getWriter().write(jsonAnuncios);
+            } else {
+                response.getWriter().write("{\"message\": \"Falha ao listar anúncios\"}");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+    
     
     private String getRequestBody(HttpServletRequest request) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
