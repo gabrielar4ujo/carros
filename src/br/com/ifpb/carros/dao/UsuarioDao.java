@@ -8,6 +8,7 @@ import br.com.ifpb.carros.modelo.Usuario;
 import br.com.ifpb.carros.modelo.UsuarioToken;
 
 public class UsuarioDao {
+	
 	public boolean existe(Usuario usuario) {
 		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em

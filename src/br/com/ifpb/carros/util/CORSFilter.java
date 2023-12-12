@@ -7,15 +7,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet Filter implementation class CORSFilter
- */
-// Enable it for Servlet 3.x implementations
-/* @ WebFilter(asyncSupported = true, urlPatterns = { "/*" }) */
+
 public class CORSFilter implements Filter {
 
 	/**
@@ -58,9 +53,6 @@ public class CORSFilter implements Filter {
 		chain.doFilter(request, servletResponse);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
 	}

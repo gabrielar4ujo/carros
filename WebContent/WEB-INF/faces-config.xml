@@ -4,11 +4,4 @@
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
-
-	<!-- TODO: verificar se pode remover de vez -->
-	<!-- <lifecycle>
-		<phase-listener>br.com.ifpb.carros.util.LogPhaseListener</phase-listener>
-		<phase-listener>br.com.ifpb.carros.util.Autorizador</phase-listener>	
-	</lifecycle> -->
-
 </faces-config>
