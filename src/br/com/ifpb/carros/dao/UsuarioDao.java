@@ -1,7 +1,5 @@
 package br.com.ifpb.carros.dao;
 
-import java.io.IOException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

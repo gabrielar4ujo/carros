@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import br.com.ifpb.carros.dao.AnuncioDao;
 import br.com.ifpb.carros.dao.UsuarioDao;
+import br.com.ifpb.carros.dao.UsuarioTokenDao;
 import br.com.ifpb.carros.modelo.Anuncio;
 import br.com.ifpb.carros.modelo.Usuario;
 
@@ -28,18 +29,36 @@ public class CriarAnuncioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     	response.setContentType("application/json");
     	
+    	String authorization = request.getHeader("Authorization");
+    	
+    	if(authorization == null) {
+    		String jsonResponse = "{\"message\": \"Usuário não está logado\"}";
+    		response.setStatus(403);
+        	response.getWriter().write(jsonResponse);
+        	return;
+    	}
+    	
+    	Usuario usuario = new UsuarioTokenDao().validateToken(authorization);
+    	
+    	if(usuario == null) {
+    		String jsonResponse = "{\"message\": \"Token inválido\"}";
+    		response.setStatus(403);
+        	response.getWriter().write(jsonResponse);
+        	return;
+    	}
+    	
+    	if(usuario.getAdmin() == false) {
+    		String jsonResponse = "{\"message\": \"Somentes usuários admin podem cadastrar anúncios\"}";
+    		response.setStatus(403);
+        	response.getWriter().write(jsonResponse);
+        	return;
+    	}
+    	
         String requestData = getRequestBody(request);
         Gson gson = new Gson();
         Anuncio anuncio = gson.fromJson(requestData, Anuncio.class);
-        Usuario usuario = new UsuarioDao().retornaUsuario("test@gmail.com");
-        
-        if(usuario == null) {
-        	String jsonResponse = "{\"message\": \"Falha ao registrar anúncio\"}";
-        	response.getWriter().write(jsonResponse);
-        	return;
-        }
-       
         anuncio.setAnunciante(usuario);
+        
         boolean success = anuncioDao.cadastrarAnuncio(anuncio);
         if (success) {
             String jsonResponse = "{\"message\": \"Anúncio registrado com sucesso\"}";
@@ -48,6 +67,7 @@ public class CriarAnuncioServlet extends HttpServlet {
         }
         
         String jsonResponse = "{\"message\": \"Falha ao registrar anúncio\"}";
+        response.setStatus(400);
         response.getWriter().write(jsonResponse);
     }
     

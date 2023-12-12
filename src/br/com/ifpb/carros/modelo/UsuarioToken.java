@@ -21,7 +21,8 @@ public class UsuarioToken implements Serializable {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-
+    
+    public UsuarioToken() {}
     public UsuarioToken(String token, Usuario usuario) {
         this.token = token;
         this.usuario = usuario;
